@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.user-login{
+    display: flex;
+    flex-direction: column;
+    padding: 130px;
+    
+}
+.emailBar{
+
+    display: flex;
+    margin-bottom: 40px;
+
+
+}
+.passBar{
+
+    display: flex;
+    margin-bottom: 20px;
+    
+}
+
+.container{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 9px;
+    flex-direction: column;
+    min-height: 80vh;
+    background-image: url("bg.png");
+    background-size: cover;
+}
+
+.submit{
+
+    display: flex;
+    justify-content: center;
+    margin-right: 6px;
+    margin-top: 20px;
+}
+
+.heading{
+
+    display: flex;
+    justify-content: center;
+    margin-left: 5px;
+    margin-bottom: 40px;  
+
+}
+.forgotpass{
+
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+.createacc{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+}
