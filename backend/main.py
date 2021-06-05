@@ -2,7 +2,7 @@ import mysql.connector
 
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,6 +18,11 @@ add_user = ("INSERT INTO users "
                " (username,password) " 
                "VALUES (%s, %s) "
                )
+
+check_user = ("SELECT userid,password FROM users "
+                 " WHERE username = %s "
+               )
+
 
 class Login(BaseModel):
     username: str
@@ -40,8 +45,8 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/login")
-def userLogin(user: Login):
+@app.post("/signup")
+def userSignup(user: Login):
     print(user)
     cursor = cnx.cursor()
     data_user = (user.username,user.password)
@@ -51,5 +56,22 @@ def userLogin(user: Login):
     return {'msg': 'Login-successful'}
 
 
+@app.post("/login")
+def userlogin(user: Login):
+    cursor = cnx.cursor()
+    user_data = (user.username)
+    cursor.execute(check_user,(user.username,))
+    rtn_data = cursor.fetchall()
+
+    if(rtn_data != None and len(rtn_data)>0):
+        password = rtn_data[0][1];
+        if(password == user.password):
+            return None
+        else:
+            raise HTTPException(status_code=418, detail="Nope! I don't like 3.")
+
+
+    cursor.close()
+    
 
 

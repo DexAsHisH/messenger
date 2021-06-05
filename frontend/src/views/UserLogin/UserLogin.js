@@ -42,6 +42,13 @@ export const UserLogin = () => {
 
         http.post('http://127.0.0.1:8000/login', { username: username, password: password }).then((response) => {
             console.log(response.data)
+            const googleresponse = {
+                name:username,
+                     email: '',
+                     token: '',
+                     image: '',
+                   };
+            history.push({pathname : '/home', state : googleresponse})
         }).catch((err) => {
             console.log("Error", err)
         })
