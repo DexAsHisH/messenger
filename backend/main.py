@@ -15,8 +15,8 @@ cnx = mysql.connector.connect(user='root', password='Dex.hax25',
 
 
 add_user = ("INSERT INTO users "
-               " (username,password) " 
-               "VALUES (%s, %s) "
+               " (username,email,password) " 
+               "VALUES (%s,%s,%s) "
                )
 
 check_user = ("SELECT userid,password FROM users "
@@ -28,7 +28,10 @@ class Login(BaseModel):
     username: str
     password: str
 
-
+class Register(BaseModel):
+    username: str
+    email: str
+    password: str
 
 origins = ["*"]
 
@@ -46,14 +49,14 @@ def read_root():
 
 
 @app.post("/signup")
-def userSignup(user: Login):
+def usersignup(user: Register):
     print(user)
     cursor = cnx.cursor()
-    data_user = (user.username,user.password)
+    data_user = (user.username,user.email,user.password)
     cursor.execute(add_user,data_user)
     cnx.commit()
     cursor.close()
-    return {'msg': 'Login-successful'}
+    return {'msg': 'stored successfully'}
 
 
 @app.post("/login")

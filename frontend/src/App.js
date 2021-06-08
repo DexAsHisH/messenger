@@ -7,7 +7,7 @@ import {
   } from "react-router-dom";
 import { Home } from "./views/Home";
 import { UserLogin } from "./views/UserLogin";
-import { Usersignup } from "./Usersignup"
+import { Usersignup } from "./views/Usersignup";
   
 
 export const App =()=>{

@@ -37,7 +37,7 @@ export const UserLogin = () => {
     }
 
 
-    const handleSignIn = () => {
+    const handleLogin = () => {
         console.log('signing');
 
         http.post('http://127.0.0.1:8000/login', { username: username, password: password }).then((response) => {
@@ -58,10 +58,10 @@ export const UserLogin = () => {
     return <div className="container"> <Card className="user-login">
     
         <h1 className="heading">
-            Signup for free</h1>
+            Welcome !!!</h1>
 
         <div className="emailBar">
-        <TextField type='email' variant='outlined' placeholder='Email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
+        <TextField type='email' variant='outlined' placeholder='email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
         </div>
 
         <div className="passBar">
@@ -78,7 +78,7 @@ export const UserLogin = () => {
 
         
         <div className="submit">
-        <Button variant='contained' color='primary' size='large' onClick={handleSignIn}>Sign In</Button>
+        <Button variant='contained' color='primary' size='large' onClick={handleLogin}>Login</Button>
         </div>
 
         <div className="createacc">    
