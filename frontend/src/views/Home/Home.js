@@ -59,7 +59,7 @@ export const Home = (props) => {
 
             <TextField type='text' variant='outlined' placeholder='text...' size='small' onChange={({ target }) => setText(target.value)}></TextField>
 
-            <Button variant='contained' color='Secondary' size='large' onClick={handleSend}>Send</Button>
+            <Button variant='contained' color='Secondary' size='large' onClick={handleSend}>Sending</Button>
 
             {messages.map((message) => {
 
