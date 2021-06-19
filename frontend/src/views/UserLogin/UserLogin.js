@@ -21,6 +21,7 @@ export const UserLogin = () => {
                  email: response.profileObj.email,
                  token: response.googleId,
                  image: response.profileObj.imageUrl,
+                 userid: response.googleId,
                };
             http.post('http://127.0.0.1:8000/login', { username: googleresponse.name, password: "password" }).then((response) => {
             console.log(response.data)
@@ -43,10 +44,11 @@ export const UserLogin = () => {
         http.post('http://127.0.0.1:8000/login', { username: username, password: password }).then((response) => {
             console.log(response.data)
             const googleresponse = {
-                name:username,
+                name:response.username,
                      email: '',
                      token: '',
                      image: '',
+                     userid: response.userid,
                    };
             history.push({pathname : '/home', state : googleresponse})
         }).catch((err) => {
