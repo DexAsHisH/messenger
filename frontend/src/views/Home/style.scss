@@ -1,0 +1,346 @@
+.home-page {
+    display : flex;
+    flex-direction : 'column';
+    //justify-content: space-evenly;
+    height: 100vh;
+}
+
+.main-sidebar {
+    background-color : #111111;
+   
+    width: 35px;
+    padding: 10px;
+  //  border-right: 1px solid black;
+    //align-content: 'center';
+}
+
+.logo {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display : flex;
+    color : #b3b3b3;
+    justify-content: center;
+    align-items: center;
+    padding-bottom : 30px;
+    //margin-top: 10px;
+    position: relative;
+    top: 6px;
+    
+   
+}
+.App-name {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: small;
+    font-weight: 700;
+    color : #b3b3b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    margin-top: -7px;
+    top: 12px;
+    position: relative;
+}
+
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+
+.nav-bottom {
+    position: absolute;
+    bottom: 0;
+}
+    
+}
+
+.nav-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    color : #b3b3b3;
+    &:hover {
+        color : rgb(143, 71, 172);
+        cursor: pointer;
+    }
+ 
+}
+
+
+
+
+
+
+.left-container {
+    background-color : rgb(241, 241, 241);
+    width: 400px;
+    //height: 100vh;
+
+
+
+
+.my-profile {
+
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    height: 242px;
+    width: 350px;
+    justify-content: center;
+    align-items: center;
+    //border-bottom: 1px solid grey;
+    
+
+
+
+
+
+.profile-image {
+    position: relative;
+    top: -22px;
+    left: 50px;
+    width: 75px;
+    height:80px;
+    border-radius: 37px;
+    background-image: url(goku.jpg);
+    background-size: cover;
+    background-position: center;
+    
+            
+    }
+
+
+.profile-name {
+
+    position: relative;
+    top: 32px;
+    right: 31px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: medium;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
+
+.my-acc {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    top: 53px;
+    right: 105px;
+    font-size: smaller;
+    color: rgb(145, 141, 141);
+}
+
+
+}
+}
+
+.search {
+    display: flex;
+    height: 41px;
+    width: 349px;
+    //border-bottom: 1px solid grey;
+    background-color: white;
+
+    
+
+
+.search-icon {
+    padding: 10px 15px;
+    color: grey;
+    vertical-align: middle;
+}
+
+.search-bar {
+
+   // position: relative;
+   // left: -13px;
+   // border-radius: 6px;
+  //  padding-right: 135px;
+    border: none;
+
+    &::placeholder {
+        color: #e3e3e3;
+        font-weight: 300;
+    }
+
+    &:focus {
+        outline: none;
+    }
+    
+}
+
+
+}
+
+
+
+
+
+.main-container {
+    display: flex;
+    //background-color : blueviolet;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+
+//-------- Uswr Profile------
+
+.user-profile{
+    display : flex;
+    padding: 10px 10px;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #cdb1da;
+    }
+
+
+    &__icon{
+        padding-left: 5px;
+        padding-right: 10px;
+        img {
+            height: 30px;
+            width:30px;
+            border-radius: 50%;
+        }
+    }
+
+    &__name{
+
+    }
+
+    &__online-status{
+        display: flex;
+     
+        width : 10px;
+        height:10px;
+        border-radius: 50%;
+        background-color: rgb(41, 173, 14);
+     
+    }
+}
+
+
+// ----------- Messagesss -----------
+
+.chat-header {
+    display: flex;
+    padding: 20px;
+    height: 100px;
+   
+    align-items: center;
+    width: 100%;
+
+
+    &__icon{
+        padding-left: 5px;
+        padding-right: 10px;
+        margin-right: 10px;
+        img {
+            height: 50px;
+            width:50px;
+            border-radius: 50%;
+        }
+    }
+
+    &__desc{
+     
+       
+    }
+
+    &__name{
+        font-size:18px;
+    }
+
+    &__last-seen{
+        font-size: 10px;
+    }
+}
+
+.chat-messages{
+    display: flex;
+    flex-direction: column;
+    width : 100%;
+    height:100%;
+    //background-color: #cdb1da;
+
+    &__conversations{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding:5px;
+        
+        
+
+    }
+
+    &__send-message{
+        position:absolute;
+        display: flex;
+        bottom: 0px;
+        align-items: center;
+    
+    }
+
+    &__icon{
+        padding-left: 5px;
+        padding-right: 10px;
+        margin-right: 10px;
+        img {
+            height: 50px;
+            width:50px;
+            border-radius: 50%;
+        }
+    }
+
+    &__input {
+        margin: 15px 10px;
+        width: 100%;
+        input {
+            padding: 10px;
+            border : none;
+            width :100%;
+        }
+    }
+
+    &__send {
+
+    }
+
+    &__message-recieved{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 10px;
+        border-radius: 5%;
+        background-color: rgb(201, 199, 202);
+        width: fit-content;
+
+    }
+
+    &__message-sent{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 10px;
+        background-color: rgb(221, 182, 231);
+        border-radius: 5%;
+        width: fit-content;
+        align-self: flex-end;
+    }
+
+}
