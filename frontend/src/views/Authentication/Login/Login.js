@@ -7,6 +7,7 @@ import './styles.scss'
 
 import { useHistory } from "react-router-dom";
 import { setAuthenticated } from '../../../store/authentication';
+import { setUserDetails } from '../../../store/userDetails';
 
 
 
@@ -47,14 +48,17 @@ export const Login = () => {
 
         http.post('http://127.0.0.1:8000/login', { username: username, password: password }).then((response) => {
             dispatch(setAuthenticated(true))
+            
             console.log(response.data)
             const googleresponse = {
-                name:response.username,
+                name:response.data.username,
                      email: '',
                      token: '',
                      image: '',
-                     userid: response.userid,
+                     userId: response.data.userid,
                    };
+                   console.log(googleresponse)
+                   dispatch(setUserDetails(googleresponse))
             history.push({pathname : '/', state : googleresponse})
         }).catch((err) => {
             console.log("Error", err)

@@ -1,4 +1,4 @@
-import { userDetails } from './userDetails';
+import { userDetailsReducer as userDetails } from './userDetails';
 import {authenticationReducer as authentication } from './authentication'
 import { combineReducers } from 'redux';
 
