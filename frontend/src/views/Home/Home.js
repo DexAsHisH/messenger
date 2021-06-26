@@ -1,4 +1,5 @@
 
+import React, {useRef} from 'react'
 import { TextField, Button, colors } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
@@ -15,61 +16,113 @@ import image from './goku.jpg';
 import { userDetailsSelector } from "../../store/userDetails/selector";
 
 
-
-const socket = io("ws://localhost:8000", {
-    path: '/ws/socket.io/',
-   });
-
-
 const getConnectedUsers = () => {
     return http.get('http://127.0.0.1:8000/getOnlineUsers')
 }   
 
 export const Home = ()=>{
+    const socket = useRef(null);
+    const chatRef = useRef(null)
     
     const userDetails = useSelector(userDetailsSelector)
-    console.log(userDetails)
     const [messageToSend, setMessageToSend] = useState('');
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [activeUser, setActiveUser] = useState({})
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState({})
+    const [hasNotification, setHasNotification] = useState({})
 
 
     useEffect( () => {
         getConnectedUsers().then((res) => {
-            setOnlineUsers(res.data)
+            const onlineUsersList = res.data.filter((userD) => userD.userId !== userDetails.userId)
+            console.log(onlineUsersList)
+            setOnlineUsers(onlineUsersList)
         }).catch((err) => {
             console.error(err)
         });
        
-    },[])
+    },[userDetails.userId])
 
     useEffect(() => {
-        console.log("COnnecting ")
        
-          
-            socket.on('connect', function (event) {
+        socket.current = io("ws://localhost:8000", {
+            path: '/ws/socket.io/',
+           });
+            socket.current.on('connect', function (event) {
                 console.log('user is connected now');
-                socket.emit('join', { data: { ...userDetails }});
+                socket.current.emit('join', { data: { ...userDetails }});
             });
-            socket.on('error', (err) => { 
+            socket.current.on('error', (err) => { 
                 console.log(err)
             })
-        socket.on('message-recieve' , (data) => {
-            setMessages((prev) => [...prev, {type : 'recieved', message : data}])
+        socket.current.on('message-recieve' , (data) => {
+            console.log(data)
+            if(data.from !== activeUser.userId){
+                setHasNotification((prev) => ({...prev, [data.from] : prev[data.from] ? prev[data.from] + 1 : 1}))
+            }
+            //setMessages((prev) => ({...prev, [data.to] : [...(prev[data.to] ? prev[data.to] : {}), {type : 'recieved', message : data.message}]}))
+            setMessages((prev) => {
+                if(prev[data.from]){
+                    return { ...prev, [data.from] : [...prev[data.from], {type : 'recieved', message : data.message}]}
+                }else{
+                    return { ...prev, [data.from] : [{type : 'recieved', message : data.message}]}
+                }
+            })
+            if(chatRef.current){
+                chatRef.current.scrollTop = chatRef.current.scrollHeight;
+            }
         })
+
+        socket.current.on('user-disconnect', (data) => {
+            console.log('user disconnected')
+            setOnlineUsers((prev) => {
+                return prev.filter((user) => user.userId !== data.userId)
+            })
+        })
+
+        socket.current.on('user-joined' , (data) => {
+                if(data.userId !== userDetails.userId){
+                setOnlineUsers((prev) => {
+                    const elementFound = prev.findIndex((user) => user.userId === data.userId)
+                
+                    if(elementFound === -1){
+                        return [...prev, data]
+                    }
+
+                    return prev
+                })
+            }
+        })
+
+        return () => {
+            if(socket.current)
+                socket.current.disconnect();
+        }
         
-    },[userDetails])
+    },[activeUser.userId, userDetails])
 
 
     const handleSendClick = useCallback((e) => {
-        socket.emit('send-message', {
+        if(!socket.current) return;
+
+        socket.current.emit('send-message', {
             to: activeUser.userId,
             from : userDetails.userId,
             message : messageToSend
         })
-        setMessages((prev) => [...prev, {type : 'sent', message : messageToSend}])
+        //setMessages((prev) => [...prev, {type : 'sent', message : messageToSend}])
+       // setMessages((prev) => ({...prev, [activeUser.userId] : [ ...(prev[activeUser.userId] ? prev[activeUser.userId] : {}), {type : 'sent', message : messageToSend}]}))
+       setMessages((prev) => {
+        if(prev[activeUser.userId]){
+            return { ...prev, [activeUser.userId] : [...prev[activeUser.userId], {type : 'sent', message : messageToSend}]}
+        }else{
+            return { ...prev, [activeUser.userId] : [{type : 'sent', message : messageToSend}]}
+        }
+    })
+        setMessageToSend('')
     }, [activeUser.userId, messageToSend, userDetails.userId])
+
+    console.log(messages)
    
     return(
         <div className="home-page">
@@ -106,10 +159,20 @@ export const Home = ()=>{
                 </div>
                 <div className="chat-list">
                     { onlineUsers.map((onlineUser) => 
-                        <div id={onlineUser.userId} className={ cx("user-profile", {'user-profile--active': activeUser.userId === onlineUser.userId})}  onClick={() => setActiveUser(onlineUser)}>
+                        <div id={onlineUser.userId} className={ cx("user-profile", {'user-profile--active': activeUser.userId === onlineUser.userId})}  onClick={() => {setActiveUser(onlineUser)
+                                setHasNotification((prev) => {
+                                    if(prev[onlineUser.userId]){
+                                        delete prev[onlineUser.userId]
+                                        return prev
+                                    }
+                                    return prev
+                                })
+                            }}>
                             <div className="user-profile__icon"><img src={image} /></div>
                             <div className="user-profile__name">{onlineUser.name}</div>
+                            { hasNotification[onlineUser.userId] && <div className="user-profile__notification-counts">{hasNotification[onlineUser.userId]}</div> }
                             <div className="user-profile__online-status" />
+                            
                         </div>
                     )
                 }
@@ -120,7 +183,7 @@ export const Home = ()=>{
 
 
 
-            <div className="main-container">
+            { activeUser.userId && <div className="main-container">
                 <div className="chat-header">
                     <div className="chat-header__icon" ><img src={image} /></div>
                     <div className="chat-header__desc" >
@@ -129,10 +192,10 @@ export const Home = ()=>{
                     </div>
                 </div>
 
-                <div className="chat-messages">
+                <div className="chat-messages" ref={chatRef}>
                     
                     <div className="chat-messages__conversations">
-                        { messages.map((message) => {
+                        { messages[activeUser.userId]?.map((message) => {
                             if(message.type === 'recieved'){
                                 return <div className="chat-messages__message-recieved">{message.message}</div>
                             }else{
@@ -141,18 +204,23 @@ export const Home = ()=>{
                         })}
                        
                     </div>
-                    <div className="chat-messages__send-message">
+                    
+                </div>
+                <footer className="chat-messages__send-message">
                       
                         <div className="chat-messages__input">
-                        <input type="text" placeholder="Send something..." onChange={({ target }) => setMessageToSend(target.value)}/>
+                        <input type="text" placeholder="Send something..." value={messageToSend} onKeyPress={(e) => {
+                            if(e.key === 'Enter'){
+                                handleSendClick()
+                            }
+                        }} onChange={({ target }) => setMessageToSend(target.value)}/>
                         </div>
                         <div className="chat-messages__send">
                             <Button variant='contained' color='primary' size='small' onClick={handleSendClick} >Send</Button>
                         </div>
-                    </div>
-                </div>
+                    </footer>
             </div>
-
+}
         </div>
         
     )

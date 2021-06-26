@@ -99,7 +99,29 @@ def userlogin(user: Login):
 
 
     cursor.close()
-    
+  
+  
+@app.sio.event
+def connect(sid, environ, auth):
+    print('connect ', sid)  
+
+
+@app.sio.event
+async def disconnect(sid):
+    keyToDelete = None;
+    for key in CONNECTED_CLIENTS:
+        if CONNECTED_CLIENTS[key]['sid'] == sid:
+            keyToDelete = key
+            break
+    print("Id to delete : ", keyToDelete)        
+    if keyToDelete:
+        aa =CONNECTED_CLIENTS.pop(key)
+        print(aa)
+        await app.sio.emit('user-disconnect', aa)   
+           
+
+    print('disconnect ', sid)  
+
 
 @app.sio.on('join')
 async def handle_join(sid, *args, **kwargs):
@@ -108,7 +130,7 @@ async def handle_join(sid, *args, **kwargs):
     name = args[0]['data']['name']
     CONNECTED_CLIENTS[userId] = { 'sid' : sid, 'name' : name , 'userId': userId}
     #app.sio.save_session(sid, {'userId': userId})
-    await app.sio.emit('message', 'User joined')        
+    await app.sio.emit('user-joined', { 'name' : name , 'userId': userId})        
 
 
 @app.sio.on('send-message')
@@ -120,9 +142,8 @@ async def handle_join(sid, *args, **kwargs):
     fromUser = data['from']
     message = data['message']
     toSid = CONNECTED_CLIENTS[to]['sid']
-    print(message)
     
-    await app.sio.emit('message-recieve', message, room=toSid)        
+    await app.sio.emit('message-recieve', {'to' : to, 'from': fromUser, 'message' : message}, room=toSid)        
 
 
 
