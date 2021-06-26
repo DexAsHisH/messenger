@@ -1,4 +1,6 @@
 import mysql.connector
+from fastapi_socketio import SocketManager
+# from threading import Thread
 
 from typing import Optional,List
 
@@ -7,11 +9,11 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+socket_manager = SocketManager(app=app, cors_allowed_origins=[])
 
-
-cnx = mysql.connector.connect(user='root', password='Dex.hax25',
+cnx = mysql.connector.connect(user='root', password='asdf12#$',
                               host='127.0.0.1',
-                              database='messengerdb')
+                              database='messengerdb',auth_plugin='mysql_native_password')
 
 
 add_user = ("INSERT INTO users "
@@ -23,6 +25,8 @@ check_user = ("SELECT userid,password,username FROM users "
                  " WHERE username = %s "
                )
 
+
+CONNECTED_CLIENTS = {}
 
 class Login(BaseModel):
     username: str
@@ -89,22 +93,61 @@ def userlogin(user: Login):
         if(password == user.password):
             return {'username': rtn_data[0][2],'userid': rtn_data[0][0]}
         else:
-            raise HTTPException(status_code=418, detail="Nope! I don't like 3.")
+            raise HTTPException(status_code=400, detail="invalid username or password")
+    else:
+        raise HTTPException(status_code=400, detail="invalid username or password")        
 
 
     cursor.close()
     
 
-@app.websocket("/ws/{userid}")
-async def websocket_endpoint(websocket: WebSocket, userid: int):
-    ##await websocket.accept()
-    await manager.connect(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            #await websocket.send_text(f": {data}")
-            await manager.broadcast(f"NEW MESSAGE: {data}")
+@app.sio.on('join')
+async def handle_join(sid, *args, **kwargs):
+    print("FUnction Called ,", args[0]['data'])
+    userId = args[0]['data']['userId']
+    name = args[0]['data']['name']
+    CONNECTED_CLIENTS[userId] = { 'sid' : sid, 'name' : name , 'userId': userId}
+    #app.sio.save_session(sid, {'userId': userId})
+    await app.sio.emit('message', 'User joined')        
+
+
+@app.sio.on('send-message')
+async def handle_join(sid, *args, **kwargs):
+    print("Message Called ,", args[0]['message'])
+    #session = app.sio.get_session(sid)
+    data = args[0]
+    to = data['to']
+    fromUser = data['from']
+    message = data['message']
+    toSid = CONNECTED_CLIENTS[to]['sid']
+    print(message)
+    
+    await app.sio.emit('message-recieve', message, room=toSid)        
+
+
+
+@app.get("/getOnlineUsers")
+def getOnlineUsers():
+    connectedUsersList = []
+    for item in CONNECTED_CLIENTS:
+        connectedUsersList.append(CONNECTED_CLIENTS[item])
+
+    return connectedUsersList;
+
+
+# @app.websocket("/wsd/{userid}")
+# async def websocket_endpoint(websocket: WebSocket, userid: int):
+#     ##await websocket.accept()
+#     await manager.connect(websocket)
+#     try:
+#         while True:
+#             data = await websocket.receive_text()
+#             #await websocket.send_text(f": {data}")
+#             await manager.broadcast(f"NEW MESSAGE: {data}")
             
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-        await manager.broadcast(f"user #{user_id} left the chat")
+#     except WebSocketDisconnect:
+#         manager.disconnect(websocket)
+#         await manager.broadcast(f"user #{user_id} left the chat")
+
+
+
