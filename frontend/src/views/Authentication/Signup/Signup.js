@@ -5,7 +5,7 @@ import http from 'axios';
 
 
 
-export const Usersignup = () => {
+export const Signup = () => {
 
 
     const [username, setUserName] = useState();

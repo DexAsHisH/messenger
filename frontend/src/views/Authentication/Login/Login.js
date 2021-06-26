@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { TextField, Button, Card, Container,Link } from '@material-ui/core'
+import { TextField, Button, Card,Link } from '@material-ui/core'
 import http from 'axios'
+import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import './styles.scss'
-import firebase from "firebase/app";
-import "firebase/auth";
+
 import { useHistory } from "react-router-dom";
+import { setAuthenticated } from '../../../store/authentication';
 
 
 
-export const UserLogin = () => {
+export const Login = () => {
 
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const history = useHistory();
+    const dispatch = useDispatch();
+
     const responseGoogle = (response) => {
         console.log(response);
+        dispatch(setAuthenticated(true))
         const googleresponse = {
             name: response.profileObj.name,
                  email: response.profileObj.email,
@@ -29,7 +33,7 @@ export const UserLogin = () => {
             console.log("Error", err)
             })
         console.log(googleresponse)
-        history.push({pathname : '/home', state : googleresponse})
+        history.push({pathname : '/', state : googleresponse})
       }
     
     const responsefailure = (response) =>{
@@ -42,6 +46,7 @@ export const UserLogin = () => {
         console.log('signing');
 
         http.post('http://127.0.0.1:8000/login', { username: username, password: password }).then((response) => {
+            dispatch(setAuthenticated(true))
             console.log(response.data)
             const googleresponse = {
                 name:response.username,
@@ -50,7 +55,7 @@ export const UserLogin = () => {
                      image: '',
                      userid: response.userid,
                    };
-            history.push({pathname : '/home', state : googleresponse})
+            history.push({pathname : '/', state : googleresponse})
         }).catch((err) => {
             console.log("Error", err)
         })
