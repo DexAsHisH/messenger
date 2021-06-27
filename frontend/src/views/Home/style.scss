@@ -112,9 +112,19 @@
     width: 75px;
     height:80px;
     border-radius: 37px;
-    background-image: url(goku.jpg);
+    margin-bottom: 30px;
+    //background-image: url(goku.jpg);
+
     background-size: cover;
     background-position: center;
+
+    img {
+
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+
+    }
     
             
     }

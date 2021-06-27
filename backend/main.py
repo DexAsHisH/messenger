@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 socket_manager = SocketManager(app=app, cors_allowed_origins=[])
 
-cnx = mysql.connector.connect(user='root', password='asdf12#$',
+cnx = mysql.connector.connect(user='root', password='Dex.hax25',
                               host='127.0.0.1',
                               database='messengerdb',auth_plugin='mysql_native_password')
 
@@ -127,10 +127,11 @@ async def disconnect(sid):
 async def handle_join(sid, *args, **kwargs):
     print("FUnction Called ,", args[0]['data'])
     userId = args[0]['data']['userId']
-    name = args[0]['data']['name']
-    CONNECTED_CLIENTS[userId] = { 'sid' : sid, 'name' : name , 'userId': userId}
+    name = args[0]['data']['name'] 
+    image = args[0]['data']['image']
+    CONNECTED_CLIENTS[userId] = { 'sid' : sid, 'name' : name , 'userId': userId, 'image' : image }
     #app.sio.save_session(sid, {'userId': userId})
-    await app.sio.emit('user-joined', { 'name' : name , 'userId': userId})        
+    await app.sio.emit('user-joined', { 'name' : name , 'userId': userId , 'image' : image })        
 
 
 @app.sio.on('send-message')

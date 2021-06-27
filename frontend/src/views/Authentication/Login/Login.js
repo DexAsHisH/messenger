@@ -26,15 +26,18 @@ export const Login = () => {
                  email: response.profileObj.email,
                  token: response.googleId,
                  image: response.profileObj.imageUrl,
-                 userid: response.googleId,
+                 userId: response.googleId,
                };
-            http.post('http://127.0.0.1:8000/login', { username: googleresponse.name, password: "password" }).then((response) => {
-            console.log(response.data)
-            }).catch((err) => {
-            console.log("Error", err)
-            })
+            // http.post('http://127.0.0.1:8000/login', { username: googleresponse.name, password: "password" }).then((response) => {
+            // console.log(response.data)
+            // history.push({pathname : '/', state : googleresponse})
+            // }).catch((err) => {
+            // console.log("Error", err)
+            // })
         console.log(googleresponse)
+        dispatch(setUserDetails(googleresponse))
         history.push({pathname : '/', state : googleresponse})
+        
       }
     
     const responsefailure = (response) =>{
@@ -54,7 +57,7 @@ export const Login = () => {
                 name:response.data.username,
                      email: '',
                      token: '',
-                     image: '',
+                     image: `https://avatars.dicebear.com/api/human/${Math.floor(Math.random() * 5000)}.svg`,
                      userId: response.data.userid,
                    };
                    console.log(googleresponse)

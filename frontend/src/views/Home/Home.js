@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle , faDiceD6 , faSignOutAlt, faCog, faSearch } from '@fortawesome/free-solid-svg-icons'
 import image from './goku.jpg';
 import { userDetailsSelector } from "../../store/userDetails/selector";
+import Avatar from 'react-avatar';
 
 
 const getConnectedUsers = () => {
@@ -145,7 +146,10 @@ export const Home = ()=>{
 
             <div className="left-container">
                 <div className="my-profile">
-                    <div className= "profile-image"></div>
+                    <div className= "profile-image">
+                        <Avatar googleId={userDetails.userId} src={userDetails.image} size="100" round={true} />  
+                        {/* <img src={userDetails.image}/> */}
+                    </div>
                     <div className="profile-name">
                         {userDetails.name}
                     </div>
@@ -168,7 +172,7 @@ export const Home = ()=>{
                                     return prev
                                 })
                             }}>
-                            <div className="user-profile__icon"><img src={image} /></div>
+                            <div className="user-profile__icon"><Avatar googleId={onlineUser.userId} src={onlineUser.image} size="50" round={true} /> </div>
                             <div className="user-profile__name">{onlineUser.name}</div>
                             { hasNotification[onlineUser.userId] && <div className="user-profile__notification-counts">{hasNotification[onlineUser.userId]}</div> }
                             <div className="user-profile__online-status" />
@@ -185,7 +189,7 @@ export const Home = ()=>{
 
             { activeUser.userId && <div className="main-container">
                 <div className="chat-header">
-                    <div className="chat-header__icon" ><img src={image} /></div>
+                    <div className="chat-header__icon" ><Avatar googleId={activeUser.userId} src={activeUser.image} size="100" round={true} /> </div>
                     <div className="chat-header__desc" >
                         <div className="chat-header__name">{ activeUser.name}</div>
                         <span className="chat-header__last-seen">Online</span>
