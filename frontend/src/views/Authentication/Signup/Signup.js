@@ -30,20 +30,20 @@ export const Signup = () => {
     return <div className="container"> <Card className="user-login">
 
 
-        <h1 className="heading">Register for free</h1>
+        <h1 className="heading">Register</h1>
 
 
         <div className="usernameBar">
-            <TextField type='username' variant='outlined' placeholder='username...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
+            <TextField type='username' className="input_field" variant='outlined' placeholder='username...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
         </div>
 
 
         <div className="emailBar">
-            <TextField type='email' variant='outlined' placeholder='Email...' size= 'small' onChange={({ target }) => setEmail(target.value)} />
+            <TextField type='email' className="input_field" variant='outlined' placeholder='Email...' size= 'small' onChange={({ target }) => setEmail(target.value)} />
         </div>
 
         <div className="passBar">
-            <TextField type='password' variant='outlined' placeholder='Password...' size= 'small' onChange={({ target }) => setPassword(target.value)} />
+            <TextField type='password' className="input_field" variant='outlined' placeholder='Password...' size= 'small' onChange={({ target }) => setPassword(target.value)} />
         </div>
 
 

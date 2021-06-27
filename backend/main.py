@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 socket_manager = SocketManager(app=app, cors_allowed_origins=[])
 
-cnx = mysql.connector.connect(user='root', password='asdf12#$',
+cnx = mysql.connector.connect(user='root', password='Dex.hax25',
                               host='127.0.0.1',
                               database='messengerdb',auth_plugin='mysql_native_password')
 
