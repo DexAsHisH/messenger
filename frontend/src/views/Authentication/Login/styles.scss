@@ -3,6 +3,7 @@
     padding: 0;
 }
 
+
 .user-login{
     display: flex;
     flex-direction: column;
@@ -33,11 +34,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3px 9px;
+    //padding: 3px 9px;
     flex-direction: column;
-    min-height: 80vh;
+    //min-height: 80vh;
     background-image: url("bg.png");
     background-size: cover;
+    height: 100vh;
 }
 
 .submit{

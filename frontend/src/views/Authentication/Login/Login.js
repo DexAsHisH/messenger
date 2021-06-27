@@ -69,46 +69,46 @@ export const Login = () => {
     }
 
     
-    return <div className="container"> <Card className="user-login">
+    return (<div className="container">
+         <Card className="user-login">
     
-        <h1 className="heading">
-            Welcome !!!</h1>
+            <h1 className="heading">Welcome !!!</h1>
 
-        <div className="emailBar">
-        <TextField type='email' variant='outlined' placeholder='email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
-        </div>
+            <div className="emailBar">
+            <TextField type='email' variant='outlined' placeholder='email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
+            </div>
 
-        <div className="passBar">
-        <TextField type='password' variant='outlined' placeholder='Password...' size= 'small' onChange={({ target }) => setPassword(target.value)} />
-        </div>
+            <div className="passBar">
+            <TextField type='password' variant='outlined' placeholder='Password...' size= 'small' onChange={({ target }) => setPassword(target.value)} />
+            </div>
 
-        <div className= "forgotpass">
-            <Link color="primary">
-                forgot password?
+            <div className= "forgotpass">
+                <Link color="primary">
+                    forgot password?
+                
+                </Link>
+                
+            </div>
+
             
-            </Link>
-            
-        </div>
+            <div className="submit">
+            <Button variant='contained' color='primary' size='large' onClick={handleLogin}>Login</Button>
+            </div>
 
-        
-        <div className="submit">
-        <Button variant='contained' color='primary' size='large' onClick={handleLogin}>Login</Button>
-        </div>
+            <div className="createacc">    
+                <Link href="http://127.0.0.1:3000/signup" color="primary">
+                    create a new account
+                </Link>
+                
+            </div>
 
-        <div className="createacc">    
-            <Link href="http://127.0.0.1:3000/signup" color="primary">
-                create a new account
-            </Link>
-            
-        </div>
+            <GoogleLogin
+            clientId="1016226795980-5dls61tqvm55jmlsnva6lor2riddt993.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responsefailure}
+            cookiePolicy={'single_host_origin'}
+            />
 
-        <GoogleLogin
-        clientId="1016226795980-5dls61tqvm55jmlsnva6lor2riddt993.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responsefailure}
-        cookiePolicy={'single_host_origin'}
-        />
-
-    </Card></div>
+    </Card></div>)
 }
