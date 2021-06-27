@@ -325,6 +325,7 @@
        // bottom: 0px;
         align-items: center;
         background-color: #f0f8ff;
+        
     }
 
     &__message_icon{
@@ -350,6 +351,7 @@
     &__input {
         margin: 15px 10px;
         width: 100%;
+        margin-right: 30px;
         input {
             padding: 10px;
             border : none;
@@ -358,7 +360,11 @@
     }
 
     &__send {
-
+        padding-right: 10px;
+        button {
+            padding: 10px 10px;
+            background-color:rgb(143, 71, 172)
+        }
     }
 
     &__message-recieved{

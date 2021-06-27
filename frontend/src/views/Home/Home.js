@@ -5,16 +5,18 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import cx from 'classname'
 import http from 'axios'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Typography,AppBar,Card,CssBaseline,Container,Drawer } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core";
 import { io } from 'socket.io-client'
 import './style.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle , faDiceD6 ,faCommentDots, faSignOutAlt, faCog, faSearch, faComment, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle , faDiceD6 ,faCommentDots, faSignOutAlt, faCog,faPaperPlane, faSearch, faComment, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 import image from './goku.jpg';
 import { userDetailsSelector } from "../../store/userDetails/selector";
 import Avatar from 'react-avatar';
+import { setAuthenticated } from '../../store/authentication';
+import { setUserDetails } from '../../store/userDetails';
 
 
 const getConnectedUsers = () => {
@@ -24,6 +26,7 @@ const getConnectedUsers = () => {
 export const Home = ()=>{
     const socket = useRef(null);
     const chatRef = useRef(null)
+    const dispatch = useDispatch();
     
     const userDetails = useSelector(userDetailsSelector)
     const [messageToSend, setMessageToSend] = useState('');
@@ -125,6 +128,12 @@ export const Home = ()=>{
         setMessageToSend('')
     }, [activeUser.userId, messageToSend, userDetails.userId])
 
+
+    const handleLogout = useCallback(() => {
+        dispatch(setAuthenticated(false))
+        dispatch(setUserDetails({}))
+    }, [dispatch])
+
     console.log(messages)
    
     return(
@@ -137,7 +146,7 @@ export const Home = ()=>{
                     <div className={ cx("nav-item", {'nav-item--active' : true})}><FontAwesomeIcon icon={faCommentAlt} size="lg"/></div>
                    
                     <div className="nav-bottom"> 
-                    <div className="nav-item"><FontAwesomeIcon icon={faSignOutAlt} size="lg"/></div>
+                    <div className="nav-item"><FontAwesomeIcon icon={faSignOutAlt} size="lg" onClick={handleLogout}/></div>
                     </div>
                 </div>
             </div>
@@ -220,7 +229,7 @@ export const Home = ()=>{
                         }} onChange={({ target }) => setMessageToSend(target.value)}/>
                         </div>
                         <div className="chat-messages__send">
-                            <Button variant='contained' color='primary' size='small' onClick={handleSendClick} >Send</Button>
+                            <Button variant='contained' color='primary' size='small' onClick={handleSendClick} ><FontAwesomeIcon icon={faPaperPlane} size="lg"/></Button>
                         </div>
                     </footer>
             </div>
