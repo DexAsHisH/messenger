@@ -8,7 +8,7 @@
 .main-sidebar {
     background-color : #111111;
    
-    width: 35px;
+    width: 50px;
     padding: 10px;
   //  border-right: 1px solid black;
     //align-content: 'center';
@@ -39,7 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     margin-top: -7px;
     top: 12px;
     position: relative;
@@ -54,6 +54,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin-top:10px;
 
 
 .nav-bottom {
@@ -65,12 +66,16 @@
 
 .nav-item {
     display: flex;
-    margin-bottom: 10px;
+    padding: 10px 0;
     align-items: center;
     color : #b3b3b3;
     &:hover {
         color : rgb(143, 71, 172);
         cursor: pointer;
+    }
+
+    &--active {
+        color : rgb(143, 71, 172);
     }
  
 }
@@ -91,11 +96,12 @@
 .my-profile {
 
     display: flex;
+    flex-direction: column;
     padding: 0;
     margin: 0;
     list-style: none;
     height: 242px;
-    width: 350px;
+    width: 100%;
     justify-content: center;
     align-items: center;
     //border-bottom: 1px solid grey;
@@ -107,12 +113,11 @@
 
 .profile-image {
     position: relative;
-    top: -22px;
-    left: 50px;
     width: 75px;
     height:80px;
     border-radius: 37px;
     margin-bottom: 30px;
+    inline-size: fit-content;
     //background-image: url(goku.jpg);
 
     background-size: cover;
@@ -131,24 +136,19 @@
 
 
 .profile-name {
-
-    position: relative;
-    top: 32px;
-    right: 31px;
+   
     margin: 0;
     padding: 0;
     list-style: none;
-    font-size: medium;
+    font-size: large;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     
 }
 
 .my-acc {
-    position: relative;
+
     margin: 0;
     padding: 0;
-    top: 53px;
-    right: 105px;
     font-size: smaller;
     color: rgb(145, 141, 141);
 }
@@ -268,9 +268,11 @@
     display: flex;
     padding: 20px;
     height: 100px;
-   
+    box-shadow: 1px 1px 5px 0px #888888;
+    color : #fff;
     align-items: center;
     width: 100%;
+    background-color:#272727;
 
 
     &__icon{
@@ -322,6 +324,16 @@
         display: flex;
        // bottom: 0px;
         align-items: center;
+        background-color: #f0f8ff;
+    }
+
+    &__message_icon{
+        display: flex;
+        align-items: flex-end;
+
+        .sb-avatar {
+            margin-bottom: 10px;
+        }
     }
 
     &__icon{
@@ -353,7 +365,7 @@
         margin-top: 5px;
         margin-bottom: 5px;
         padding: 10px;
-        border-radius: 5%;
+        border-radius: 25px;
         background-color: rgb(201, 199, 202);
         width: fit-content;
         overflow-wrap: anywhere;
@@ -365,7 +377,7 @@
         margin-bottom: 5px;
         padding: 10px;
         background-color: rgb(221, 182, 231);
-        border-radius: 5%;
+        border-radius: 25px;
         width: fit-content;
         align-self: flex-end;
         overflow-wrap: anywhere;

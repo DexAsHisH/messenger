@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core";
 import { io } from 'socket.io-client'
 import './style.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle , faDiceD6 , faSignOutAlt, faCog, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle , faDiceD6 ,faCommentDots, faSignOutAlt, faCog, faSearch, faComment, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 import image from './goku.jpg';
 import { userDetailsSelector } from "../../store/userDetails/selector";
 import Avatar from 'react-avatar';
@@ -104,7 +104,9 @@ export const Home = ()=>{
 
 
     const handleSendClick = useCallback((e) => {
-        if(!socket.current) return;
+        if(!socket.current || !messageToSend.length ) return;
+
+
 
         socket.current.emit('send-message', {
             to: activeUser.userId,
@@ -129,14 +131,12 @@ export const Home = ()=>{
         <div className="home-page">
 
             <div className="main-sidebar">
-                <div className="App-name">Hellochat</div>
-                <div className="logo"><FontAwesomeIcon icon={faDiceD6} size="2x"/></div>
+                <div className="App-name"></div>
+                <div className="logo"><FontAwesomeIcon icon={faCommentDots} size="2x"/></div>
                 <div className="nav">
-                    <div className="nav-item"><FontAwesomeIcon icon={faCog} size="lg"/></div>
-                    <div className="nav-item"><FontAwesomeIcon icon={faCog} size="lg"/></div>
-                    <div className="nav-item"><FontAwesomeIcon icon={faSignOutAlt} size="lg"/></div>
+                    <div className={ cx("nav-item", {'nav-item--active' : true})}><FontAwesomeIcon icon={faCommentAlt} size="lg"/></div>
+                   
                     <div className="nav-bottom"> 
-                    <div className="nav-item"><FontAwesomeIcon icon={faCog} size="lg"/></div>
                     <div className="nav-item"><FontAwesomeIcon icon={faSignOutAlt} size="lg"/></div>
                     </div>
                 </div>
@@ -201,7 +201,7 @@ export const Home = ()=>{
                     <div className="chat-messages__conversations">
                         { messages[activeUser.userId]?.map((message) => {
                             if(message.type === 'recieved'){
-                                return <div className="chat-messages__message-recieved">{message.message}</div>
+                                return  <div className="chat-messages__message_icon"><Avatar googleId={userDetails.userId} src={activeUser.image} size="20" round={true} /><div className="chat-messages__message-recieved">{message.message}</div></div>
                             }else{
                                 return <div className="chat-messages__message-sent" >{message.message}</div>
                             }
