@@ -7,9 +7,12 @@
 
 .user-login{
     display: flex;
+    width: 350px;
+    height: 500px;
     flex-direction: column;
-    padding: 130px;
-    background-color: #222e3e !important;
+    padding: 40px;
+    background-color: #0e1621 !important;
+    color : #e8e9ea;
     
     
 }
@@ -22,13 +25,22 @@
 
     display: flex;
     margin-bottom: 40px;
+    width: 100%;
 
+    input {
+        color : #e8e9ea;
+        border-color: #e8e9ea;
+    }
 
 }
 .passBar{
 
     display: flex;
     margin-bottom: 20px;
+
+    input {
+        color : #e8e9ea;
+    }
     
 }
 
@@ -52,6 +64,14 @@
     justify-content: center;
     margin-right: 6px;
     margin-top: 20px;
+
+    button {
+        width: 100%;
+    }
+}
+
+.input_field {
+    width : 100%;
 }
 
 .heading{
@@ -59,8 +79,11 @@
     display: flex;
     justify-content: center;
     margin-left: 5px;
-    margin-bottom: 40px; 
+    margin-top: 20px;;
+    margin-bottom: 60px; 
     align-items: center; 
+    
+    color : #e8e9ea;
    
         span {
             padding-left: 5px;
@@ -78,5 +101,6 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    margin-bottom: 30px;
 
 }

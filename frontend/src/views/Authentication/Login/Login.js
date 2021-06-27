@@ -58,7 +58,7 @@ export const Login = () => {
                 name:response.data.username,
                      email: '',
                      token: '',
-                     image: `https://avatars.dicebear.com/api/micah/${Math.floor(Math.random() * 5000)}.svg`,
+                     image: `https://avatars.dicebear.com/api/gridy/${Math.floor(Math.random() * 5000)}.svg`,
                      userId: response.data.userid,
                    };
                    console.log(googleresponse)
@@ -76,11 +76,11 @@ export const Login = () => {
             <h1 className="heading"><FontAwesomeIcon icon={faCommentDots} size="1x"/><span>Hello Chat</span></h1>
 
             <div className="emailBar">
-            <TextField type='email' variant='outlined' placeholder='email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
+            <TextField type='email' className="input_field" variant='outlined' placeholder='email...' size='small' color="primary" onChange={({ target }) => setUserName(target.value)} />
             </div>
 
             <div className="passBar">
-            <TextField type='password' variant='outlined' placeholder='Password...' size= 'small' onChange={({ target }) => setPassword(target.value)} />
+            <TextField type='password' className="input_field" variant='outlined' placeholder='Password...' size='small' onChange={({ target }) => setPassword(target.value)} />
             </div>
 
             <div className= "forgotpass">

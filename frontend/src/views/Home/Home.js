@@ -143,7 +143,9 @@ export const Home = ()=>{
                 <div className="App-name"></div>
                 <div className="logo"><FontAwesomeIcon icon={faCommentDots} size="2x"/></div>
                 <div className="nav">
+                    <div>
                     <div className={ cx("nav-item", {'nav-item--active' : true})}><FontAwesomeIcon icon={faCommentAlt} size="lg"/></div>
+                    </div>
                    
                     <div className="nav-bottom"> 
                     <div className="nav-item"><FontAwesomeIcon icon={faSignOutAlt} size="lg" onClick={handleLogout}/></div>
@@ -196,7 +198,7 @@ export const Home = ()=>{
 
 
 
-            { activeUser.userId && <div className="main-container">
+            { activeUser.userId ? <div className="main-container">
                 <div className="chat-header">
                     <div className="chat-header__icon" ><Avatar googleId={activeUser.userId} src={activeUser.image} size="100" round={true} /> </div>
                     <div className="chat-header__desc" >
@@ -232,6 +234,9 @@ export const Home = ()=>{
                             <Button variant='contained' color='primary' size='small' onClick={handleSendClick} ><FontAwesomeIcon icon={faPaperPlane} size="lg"/></Button>
                         </div>
                     </footer>
+            </div> : <div className="welcome_banner">
+            <FontAwesomeIcon icon={faCommentDots} size="4x"/><h1>Hello Chat</h1>
+                <span>Select a user to start conversation.</span>
             </div>
 }
         </div>
