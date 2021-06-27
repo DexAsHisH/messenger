@@ -4,10 +4,11 @@ import http from 'axios'
 import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import './styles.scss'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useHistory } from "react-router-dom";
 import { setAuthenticated } from '../../../store/authentication';
 import { setUserDetails } from '../../../store/userDetails';
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -72,7 +73,7 @@ export const Login = () => {
     return (<div className="container">
          <Card className="user-login">
     
-            <h1 className="heading">Welcome !!!</h1>
+            <h1 className="heading"><FontAwesomeIcon icon={faCommentDots} size="1x"/><span>Hello Chat</span></h1>
 
             <div className="emailBar">
             <TextField type='email' variant='outlined' placeholder='email...' size= 'small' onChange={({ target }) => setUserName(target.value)} />
