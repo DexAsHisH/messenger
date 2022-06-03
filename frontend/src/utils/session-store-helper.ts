@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 
-const store = (key, obj) => {
+const store = (key: string, obj: any) => {
   if (!obj || isEmpty(obj)) {
     return;
   }
@@ -8,7 +8,7 @@ const store = (key, obj) => {
   sessionStorage.setItem(key, JSON.stringify(obj));
 };
 
-const get = (key) => {
+const get = (key: string) => {
   try {
     return JSON.parse(sessionStorage.getItem(key) || '');
   } catch (e) {
@@ -16,7 +16,7 @@ const get = (key) => {
   }
 };
 
-const remove = (key) => {
+const remove = (key: string) => {
   sessionStorage.removeItem(key);
 };
 

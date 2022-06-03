@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "==0.78.0"
+fastapi-socketio = "==0.0.9"
+mysql-connector-repackaged = "==0.3.1"
+pydantic = "1.6.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

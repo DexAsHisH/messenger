@@ -1,36 +1,37 @@
 import React from "react";
 import { useSelector } from 'react-redux';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import { Home } from "./views/Home";
 import { Login } from "./views/Authentication/Login";
 import { Signup } from "./views/Authentication/Signup/Signup";
 import { isAuthenticatedSelector } from "./store/authentication/selector";
-  
 
-export const App =()=>{
+
+
+export const App = () => {
 
   const isAuthenticated = useSelector(isAuthenticatedSelector);
 
-    return(
+  return (
     <Router>
       <Switch>
         <Route path='/login' component={Login} />
         <Route path='/signup' component={Signup} />
-        <Route path='/' exact  component={() => {
+        <Route path='/' render={() => {
           if (!isAuthenticated) {
             return <Redirect to='/login' />;
-          }else{
-            return <Home />
+          } else {
+            return (<div><Home />
+              <Redirect to={'/messages'} /> </div>)
           }
 
-        }}  />
+        }} />
       </Switch>
     </Router>
-
-    )
+  )
 }

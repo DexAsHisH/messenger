@@ -1,42 +1,35 @@
-import mysql.connector
-from fastapi_socketio import SocketManager
+
 # from threading import Thread
 
 from typing import Optional,List
 
+import os
 from fastapi import FastAPI, HTTPException,WebSocket
+from fastapi_socketio import SocketManager
+from fastapi_sqlalchemy import DBSessionMiddleware, db
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+
+#Schemas
+from schema import Login
+from schema import LoginResponse
+from schema import Signup
+from schema import SignupResponse
+
+#Models
+from models import Users as UsersModel
+
+
+load_dotenv('.env')
 
 app = FastAPI()
 socket_manager = SocketManager(app=app, cors_allowed_origins=[])
 
-cnx = mysql.connector.connect(user='root', password='Dex.hax25',
-                              host='127.0.0.1',
-                              database='messengerdb',auth_plugin='mysql_native_password')
-
-
-add_user = ("INSERT INTO users "
-               " (username,email,password) " 
-               "VALUES (%s,%s,%s) "
-               )
-
-check_user = ("SELECT userid,password,username FROM users "
-                 " WHERE username = %s "
-               )
-
+app.add_middleware(DBSessionMiddleware, db_url=os.environ['DATABASE_URL'])
 
 CONNECTED_CLIENTS = {}
-
-class Login(BaseModel):
-    username: str
-    password: str
-
-class Register(BaseModel):
-    username: str
-    email: str
-    password: str
-
 
 class ConnectionManager:
     def __init__(self):
@@ -70,35 +63,25 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/signup")
-def usersignup(user: Register):
-    print(user)
-    cursor = cnx.cursor()
-    data_user = (user.username,user.email,user.password)
-    cursor.execute(add_user,data_user)
-    cnx.commit()
-    cursor.close()
-    return {'msg': 'stored successfully'}
+@app.post("/signup", response_model=SignupResponse)
+def usersignup(user: Signup):
+    db_user = UsersModel(username=user.username,email=user.email,password=user.password)
+    db.session.add(db_user)
+    db.session.commit()
+    return db_user
 
 
-@app.post("/login")
+@app.post("/login", response_model=LoginResponse)
 def userlogin(user: Login):
-    cursor = cnx.cursor()
-    user_data = (user.username)
-    cursor.execute(check_user,(user.username,))
-    rtn_data = cursor.fetchall()
+    result = db.session.query(UsersModel).filter(UsersModel.username == user.username).first()
 
-    if(rtn_data != None and len(rtn_data)>0):
-        password = rtn_data[0][1];
-        if(password == user.password):
-            return {'username': rtn_data[0][2],'userid': rtn_data[0][0]}
+    if(result):
+        if(result.password == user.password):
+            return {'username': result.username,'userid': result.id}
         else:
             raise HTTPException(status_code=400, detail="invalid username or password")
     else:
         raise HTTPException(status_code=400, detail="invalid username or password")        
-
-
-    cursor.close()
   
   
 @app.sio.event
@@ -157,19 +140,6 @@ def getOnlineUsers():
     return connectedUsersList;
 
 
-# @app.websocket("/wsd/{userid}")
-# async def websocket_endpoint(websocket: WebSocket, userid: int):
-#     ##await websocket.accept()
-#     await manager.connect(websocket)
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             #await websocket.send_text(f": {data}")
-#             await manager.broadcast(f"NEW MESSAGE: {data}")
-            
-#     except WebSocketDisconnect:
-#         manager.disconnect(websocket)
-#         await manager.broadcast(f"user #{user_id} left the chat")
 
 
 

@@ -1,0 +1,186 @@
+.left-container {
+    background-color : #161e29;
+    width: 400px;
+    box-shadow: 0px 0px 5px 0px #151b23;
+    //height: 100vh;
+
+    &__my-profile {
+
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        height: 242px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        //border-bottom: 1px solid grey;
+
+        &__profile-image {
+            position: relative;
+            width: 75px;
+            height:80px;
+            border-radius: 37px;
+            margin-bottom: 30px;
+            inline-size: fit-content;
+            //background-image: url(goku.jpg);
+
+            background-size: cover;
+            background-position: center;
+
+                img {
+
+                border-radius: 50%;
+                background-size: cover;
+                background-position: center;
+
+                }
+            
+                    
+        }
+
+
+        &__profile-name {
+        
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: large;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color : #e8e9ea;
+            margin-top: 10px;
+            
+        }
+
+        &__my-acc {
+
+            margin: 0;
+            padding: 0;
+            font-size: smaller;
+            color: rgb(145, 141, 141);
+        }
+
+
+    }
+
+
+    &__search {
+        display: flex;
+        height: 41px;
+        margin: 0 10px;
+        border-radius: 5px;
+        //border-bottom: 1px solid grey;
+        background-color: #0e1621;
+
+        
+
+
+        &-search-icon {
+            padding: 10px 15px;
+            color: grey;
+            vertical-align: middle;
+        }
+
+        &-search-bar {
+            background-color: #0e1621; 
+            color : #e8e9ea;
+        // position: relative;
+        // left: -13px;
+        // border-radius: 6px;
+        //  padding-right: 135px;
+            border: none;
+
+            &::placeholder {
+                color: #777777;
+                font-weight: 300;
+            }
+
+            &:focus {
+                outline: none;
+            }
+            
+        }
+
+
+    }
+
+    &__user-profile{
+        display : flex;
+        padding: 10px 10px;
+        align-items: center;
+        cursor: pointer;
+        justify-content: space-between;
+        color : #e8e9ea;
+    
+        &:hover {
+            background-color: #8661f8;
+        }
+    
+    
+        &--active {
+            background-color: #7041ff;
+            box-shadow: inset 0px 0px 3px 0px #2b2b2b;
+    
+            &:hover {
+                background-color: #7041ff;
+            }
+        }
+    
+    
+        &__icon{
+           // padding-left: 5px;
+            padding-right: 10px;
+            img {
+                height: 30px;
+                width:30px;
+                border-radius: 50%;
+            }
+        }
+    
+        &__name{
+            width:100%;
+        }
+    
+        &__online-status{
+            display: flex;
+         
+            width : 13px;
+            height:10px;
+            border-radius: 50%;
+            background-color: rgb(41, 173, 14);
+         
+        }
+    
+        &__notification-counts{
+            margin-right: 10px;
+            background-color: rgb(184, 74, 74);
+            color : #fff;
+            padding: 5px 10px;
+            border-radius: 20%;
+            font-size: 12px;
+        }
+    }
+
+    &__chat-list {
+        padding-top: 10px;
+
+        &__header{
+            color: #a0a0a0;
+            display: flex;
+            border-bottom: 1px solid #0e1621;
+            padding-bottom: 8px;
+            padding-left: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        &__message {
+            color: #686868;
+            display: flex;
+            font-size: 12px;
+            padding: 10px;
+            justify-content: center;
+        }
+    }
+}

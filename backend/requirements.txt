@@ -1,0 +1,5 @@
+fastapi==0.78.0
+fastapi_socketio==0.0.9
+fastapi_sqlalchemy==0.2.1
+pydantic!=1.7.1
+uvicorn==0.11.8
