@@ -1,4 +1,4 @@
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Alert } from "@mui/material";
 import axios from "axios";
 import { Formik, Form } from "formik";
 import { useCallback, useEffect, useState } from "react";
@@ -13,6 +13,8 @@ export const Profile = () => {
     const userDetails = useSelector(userDetailsSelector);
     const [user, setUser] = useState(userDetails);
     const { username, firstName, lastName, email, phone } = user;
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
     const fetchUserDetails = useCallback(async () => {
         const response = await axios.get(`http://127.0.0.1:8000/userDetails?id=${userDetails.userId}`);
@@ -21,7 +23,38 @@ export const Profile = () => {
     }, [userDetails.userId]);
 
 
+    const handleFormSubmit = useCallback(async (values) => {
+        setError(null);
+        setSuccess(null);
+        try {
+
+            const updatedDtails = {
+                ...{
+                    firstName,
+                    lastName,
+                    email,
+                    phone: '',
+                    password: null
+                }, ...values, userId: userDetails.userId, username
+            };
+
+            console.log(updatedDtails)
+
+            const response = await axios.post(`http://127.0.0.1:8000/userDetails`, updatedDtails);
+            const { data } = response;
+            setUser(data);
+            setSuccess("Profile updated successfully");
+
+        } catch (err) {
+            console.error(err)
+            //setError(err)
+        }
+    },[email, firstName, lastName, userDetails.userId, username])
+
+
     useEffect(() => {
+        setError(null);
+        setSuccess(null);
         fetchUserDetails();
     }, [fetchUserDetails])
 
@@ -48,6 +81,8 @@ export const Profile = () => {
                         <h1>User Details</h1>
                     </div>
                     <div className="profile-body-content">
+                        {error ? <Alert severity="error">{error}</Alert> : null }
+                        {success ? <Alert severity="success">{success}</Alert> : null }
                         <Formik
                             initialValues={{
                                 firstName,
@@ -57,30 +92,7 @@ export const Profile = () => {
                                 password: ''
                             }}
                             enableReinitialize
-                            onSubmit={async (values) => {
-                                try {
-
-                                    const updatedDtails = {
-                                        ...{
-                                            firstName,
-                                            lastName,
-                                            email,
-                                            phone: '',
-                                            password: null
-                                        }, ...values, userId: userDetails.userId, username
-                                    };
-
-                                    console.log(updatedDtails)
-
-                                    const response = await axios.post(`http://127.0.0.1:8000/userDetails`, updatedDtails);
-                                    const { data } = response;
-                                    setUser(data)
-
-                                } catch (err) {
-                                    console.error(err)
-                                }
-                            }
-                            }
+                            onSubmit={handleFormSubmit}
                         >
                             {({ handleSubmit, values, handleChange }) => (
                                 <Form onSubmit={handleSubmit}>
