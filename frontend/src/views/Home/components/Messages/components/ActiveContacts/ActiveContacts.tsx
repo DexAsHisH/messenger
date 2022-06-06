@@ -115,7 +115,7 @@ export const ActiveContacts: FC = () => {
             {onlineUsers.length ? onlineUsers.map((onlineUser) =>
                 <div id={onlineUser.userId} className={cx("left-container__user-profile", { 'user-profile--active': activeChat && activeChat.userId === onlineUser.userId })} onClick={() => handleSelectChat(onlineUser)}>
                     <div className="left-container__user-profile__icon"><Avatar googleId={onlineUser.userId} src={onlineUser.image} size="40" round={true} /> </div>
-                    <div className="left-container__user-profile__name">{ userDetails.firstName || userDetails.lastName ? `${userDetails.firstName} ${userDetails.lastName}` : `${userDetails.name}`}</div>
+                    <div className="left-container__user-profile__name">{ onlineUser.firstName || onlineUser.lastName ? `${onlineUser.firstName} ${onlineUser.lastName}` : `${onlineUser.name}`}</div>
                     {hasNotification && hasNotification[onlineUser.userId] && <div className="left-container__user-profile__notification-counts">{hasNotification && hasNotification[onlineUser.userId]}</div>}
                     <div className="left-container__user-profile__online-status" />
 
