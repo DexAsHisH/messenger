@@ -80,7 +80,23 @@ def userlogin(user: Login):
 
     if(result):
         if(result.password == user.password):
-            return {'username': result.username,'userid': result.id, 'email': result.email, 'firstName': result.firstName, 'lastName': result.lastName}
+            if result.firstName:
+                firstName = result.firstName
+            else:
+                firstName = ''
+
+            if result.lastName:
+                lastName = result.lastName
+            else:
+                lastName = ''
+
+            if result.email:
+                email = result.email
+            else:
+                email = ''
+
+
+            return {'username': result.username,'userid': result.id, 'email': email, 'firstName': firstName, 'lastName': lastName}
         else:
             raise HTTPException(status_code=400, detail="invalid username or password")
     else:
