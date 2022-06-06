@@ -56,7 +56,10 @@ export const Login = () => {
             console.log(response.data)
             const googleresponse = {
                 name:response.data.username,
-                     email: '',
+                     usedId: response.data.userid,
+                     email: response.data.email,
+                     firstName: response.data.firstName,
+                     lastName: response.data.lastName,
                      token: '',
                      image: `https://avatars.dicebear.com/api/gridy/${Math.floor(Math.random() * 5000)}.svg`,
                      userId: response.data.userid,

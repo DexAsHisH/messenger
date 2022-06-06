@@ -82,7 +82,9 @@ export const Chat: FC = () => {
         <div className="chat-header">
             <div className="chat-header__icon" ><Avatar googleId={activeChat.userId} src={activeChat.image} size="60" round={true} /> </div>
             <div className="chat-header__desc" >
-                <div className="chat-header__name">{activeChat.name}</div>
+                <div className="chat-header__name">
+                { activeChat.firstName || activeChat.lastName ? `${activeChat.firstName} ${activeChat.lastName}` : `${activeChat.name}`}
+                    </div>
                 <span className="chat-header__last-seen">Online</span>
             </div>
             <div className="chat-header__icon-close" onClick={() => setActiveChat(null)}><FontAwesomeIcon icon={faTimesCircle} /> </div>

@@ -4,4 +4,8 @@ export interface IOnlineUser {
     userId: string,
     image: string,
     name: string,
+    firstName?: string,
+    lastName?: string,
+    email?: string,
+    phone?: string,
 }

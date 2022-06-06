@@ -17,6 +17,9 @@ from schema import Login
 from schema import LoginResponse
 from schema import Signup
 from schema import SignupResponse
+from schema import UserProfileResponse
+from schema import UserProfile
+from schema import UserDetails
 
 #Models
 from models import Users as UsersModel
@@ -77,11 +80,35 @@ def userlogin(user: Login):
 
     if(result):
         if(result.password == user.password):
-            return {'username': result.username,'userid': result.id}
+            return {'username': result.username,'userid': result.id, 'email': result.email, 'firstName': result.firstName, 'lastName': result.lastName}
         else:
             raise HTTPException(status_code=400, detail="invalid username or password")
     else:
-        raise HTTPException(status_code=400, detail="invalid username or password")        
+        raise HTTPException(status_code=400, detail="invalid username or password")       
+
+
+
+@app.get("/userDetails", response_model=UserProfileResponse)
+def userlogin(id: str):
+    print(id)
+    result = db.session.query(UsersModel).filter(UsersModel.id == id).first()
+
+    if(result):
+        return {'username': result.username,'userId': result.id, 'email': result.email, 'firstName': result.firstName, 'lastName': result.lastName, 'phone': result.phone}
+    else:
+        raise HTTPException(status_code=400, detail="user details not found")    
+
+
+
+@app.post("/userDetails", response_model=UserProfileResponse)
+def usersignup(user: UserDetails):
+    if user.password:
+        db_user = db.session.query(UsersModel).filter(UsersModel.id == user.userId).update({UsersModel.email:user.email,UsersModel.password:user.password,UsersModel.firstName:user.firstName,UsersModel.lastName:user.lastName,UsersModel.phone:user.phone})
+    else:
+        db_user = db.session.query(UsersModel).filter(UsersModel.id == user.userId).update({UsersModel.email:user.email,UsersModel.firstName:user.firstName,UsersModel.lastName:user.lastName,UsersModel.phone:user.phone})
+    
+    db.session.commit()
+    return user                
   
   
 @app.sio.event

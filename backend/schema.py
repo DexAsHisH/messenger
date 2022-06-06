@@ -12,9 +12,45 @@ class Login(BaseModel):
 class LoginResponse(BaseModel):
     userid: str
     username: str
+    email: str
+    firstName: str
+    lastName: str
+
 
     class Config:
+       orm_mode = True   
+
+
+class UserProfile(BaseModel):
+    id: str
+    class Config:
        orm_mode = True       
+
+
+class UserDetails(BaseModel):
+    userId: str
+    username: str
+    password: str
+    email: str
+    firstName: str
+    lastName: str
+    phone: str
+    
+
+    class Config:
+       orm_mode = True    
+
+class UserProfileResponse(BaseModel):
+    userId: str
+    username: str
+    email: str
+    firstName: str
+    lastName: str
+    phone: str
+    
+
+    class Config:
+       orm_mode = True             
 
 class Signup(BaseModel):
     username: str

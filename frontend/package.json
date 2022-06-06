@@ -26,6 +26,7 @@
     "date-fns": "^2.22.1",
     "firebase": "^8.6.1",
     "font-awesome": "^4.7.0",
+    "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "node-sass": "^5.0.0",
     "prettier": "^2.6.2",

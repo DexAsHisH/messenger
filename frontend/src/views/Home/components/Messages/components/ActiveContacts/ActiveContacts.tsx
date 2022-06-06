@@ -100,7 +100,7 @@ export const ActiveContacts: FC = () => {
                 {/* <img src={userDetails.image}/> */}
             </div>
             <div className="left-container__my-profile__profile-name">
-                {userDetails.name}
+            { userDetails.firstName || userDetails.lastName ? <h2>{userDetails.firstName} {userDetails.lastName}</h2> : <h2>{userDetails.name}</h2>}
             </div>
             {/* <div className="left-container__my-acc">my account</div> */}
         </div>
@@ -114,8 +114,8 @@ export const ActiveContacts: FC = () => {
             <div className="left-container__chat-list__header">Online Users</div>
             {onlineUsers.length ? onlineUsers.map((onlineUser) =>
                 <div id={onlineUser.userId} className={cx("left-container__user-profile", { 'user-profile--active': activeChat && activeChat.userId === onlineUser.userId })} onClick={() => handleSelectChat(onlineUser)}>
-                    <div className="left-container__user-profile__icon"><Avatar googleId={onlineUser.userId} src={onlineUser.image} size="50" round={true} /> </div>
-                    <div className="left-container__user-profile__name">{onlineUser.name}</div>
+                    <div className="left-container__user-profile__icon"><Avatar googleId={onlineUser.userId} src={onlineUser.image} size="40" round={true} /> </div>
+                    <div className="left-container__user-profile__name">{ userDetails.firstName || userDetails.lastName ? `${userDetails.firstName} ${userDetails.lastName}` : `${userDetails.name}`}</div>
                     {hasNotification && hasNotification[onlineUser.userId] && <div className="left-container__user-profile__notification-counts">{hasNotification && hasNotification[onlineUser.userId]}</div>}
                     <div className="left-container__user-profile__online-status" />
 
