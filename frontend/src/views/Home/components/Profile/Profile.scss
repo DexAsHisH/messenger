@@ -36,6 +36,7 @@
         box-shadow: 0px 0px 5px 0px #151b23;
         height: 100%;
         color : #fff;
+        flex-direction: column;
 
 
         &-header {
@@ -44,11 +45,21 @@
             align-items: center;
             width: 100%;
             padding-top: 30px;
+            margin-bottom: 30px;
 
         }
 
         &-image {
             padding-bottom: 20px;
+        }
+
+        &-links {
+            padding: 5px;
+            background-color:#7041ff;
+        }
+
+        &-link {
+            padding-left: 20px;
         }
     }
 
@@ -91,6 +102,7 @@
                 justify-content: flex-end;
                 margin-right: 50px;
                 margin-top: 20px;
+                background-color: #7041ff;
             }
         }
         

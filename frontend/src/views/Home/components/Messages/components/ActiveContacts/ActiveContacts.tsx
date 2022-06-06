@@ -61,7 +61,7 @@ export const ActiveContacts: FC = () => {
         if (activeChat?.userId !== data.from) {
             console.log("Set Notification COunt")
             setHasNotification((prev : any) => ({ ...prev, [data.from]: prev[data.from] ? prev[data.from] + 1 : 1 }))
-        }else{
+        }
         // //setMessages((prev) => ({...prev, [data.to] : [...(prev[data.to] ? prev[data.to] : {}), {type : 'recieved', message : data.message}]}))
         setMessages((prev) => {
             if (prev[data.from]) {
@@ -70,7 +70,7 @@ export const ActiveContacts: FC = () => {
                 return { ...prev, [data.from]: [{ type: 'recieved', message: data.message }] }
             }
         })
-    }
+    
         // if (chatRef.current) {
         //     chatRef.current.scrollTop = chatRef.current.scrollHeight;
         // }
@@ -125,7 +125,7 @@ export const ActiveContacts: FC = () => {
         </div>
         <div className="left-container__chat-list">
         <div className="left-container__chat-list__header">Conversations</div>
-        { activeChat ? <div className="left-container__chat-list__message">{activeChat.name}</div> :<div className="left-container__chat-list__message"> No previous conversations </div> } 
+       <div className="left-container__chat-list__message"> No previous conversations </div>
         </div>
     </div>)
 }
